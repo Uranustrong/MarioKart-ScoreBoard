@@ -14,10 +14,15 @@ chmod +x ./run-server.sh
 - Get the API key
 
 Go to the Google Cloud Console
-Login as ntucsiebigfight 
+
+Login as `ntucsiebigfight`
+
 Click the Navigation menu at left upper corner
-IAM & Admin > Service Accounts > Choose the first email listed in it > Keys > Add key
+
+Go to IAM & Admin > Service Accounts > Choose the first email listed in it > Keys > Add key
+
 Jason key file will be automatically downloaded to your local machine
+
 Add the content to file `mariokart_credential`
 - Run server
 ```
