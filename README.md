@@ -12,6 +12,7 @@ pip install --upgrade pip && pip install -r requirement.txt
 chmod +x ./run-server.sh
 ```
 - Get the API key
+
 Go to the Google Cloud Console
 Login as ntucsiebigfight 
 Click the Navigation menu at left upper corner
