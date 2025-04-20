@@ -2,7 +2,7 @@
 This is a documentation about how to set up the score-borad webserver for MarioKart
 # How to use ?
 ## For ones with ntucsiebigfight gmail account
-- Set up environment
+### Set up environment
 ```bash=
 git clone <url>
 cd MarioKart-ScoreBoard
@@ -11,20 +11,16 @@ source .venv/bin/activate
 pip install --upgrade pip && pip install -r requirement.txt
 chmod +x ./run-server.sh
 ```
-- Get the API key
+### Get the API key
 
-Go to the Google Cloud Console
+- Go to the Google Cloud Console
+- Login as `ntucsiebigfight`
+- Click the Navigation menu at left upper corner
+- Go to IAM & Admin > Service Accounts > Choose the first email listed in it > Keys > Add key
+- Jason key file will be automatically downloaded to your local machine
+- Add the content to file `mariokart_credential`
 
-Login as `ntucsiebigfight`
-
-Click the Navigation menu at left upper corner
-
-Go to IAM & Admin > Service Accounts > Choose the first email listed in it > Keys > Add key
-
-Jason key file will be automatically downloaded to your local machine
-
-Add the content to file `mariokart_credential`
-- Run server
+### Run server
 ```
 ./run-server.sh
 ```
