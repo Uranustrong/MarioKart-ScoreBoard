@@ -1,7 +1,7 @@
 # What is this ?
 This is a documentation about how to set up the score-borad webserver for MarioKart
 # How to use ?
-## For ones with ntucsiebigfight gmail account
+## For ones with `ntucsiebigfight` gmail account
 ### Set up environment
 ```bash=
 git clone <url>
@@ -18,7 +18,7 @@ chmod +x ./run-server.sh
 - Click the Navigation menu at left upper corner
 - Go to IAM & Admin > Service Accounts > Choose the first email listed in it > Keys > Add key
 - Jason key file will be automatically downloaded to your local machine
-- Add the content to file `mariokart_credential`
+- Add the content to file `mariokart_credential.json`
 
 ### Run server
 ```
