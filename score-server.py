@@ -6,7 +6,7 @@ import pandas as pd
 app = Flask(__name__, static_folder="web/", static_url_path='')
 CORS(app)
 
-gc = pygsheets.authorize(service_file="./mariokart_credential.json")
+gc = pygsheets.authorize(service_file="./mariokart-credential.json")
 sheets = dict(
     A=gc.open_by_url(f'https://docs.google.com/spreadsheets/d/1CsqSd8_76OR0TzE7HbpSjLAdDd-2WaHiLdfvMugAw68/edit?gid=856360843#gid=856360843'),
     B=gc.open_by_url(f'https://docs.google.com/spreadsheets/d/1-ZAHL2ic95nBDDcO8fsOLobVs872tHPffYkeA20OQXE/edit?gid=1490557090#gid=1490557090'),
