@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <style type="text/css">
+    *:not(span) {
+      font-size: calc(0.022 * min(100vw, 100vh * 16 / 9));
+      font-family: Impact;
+      user-select: none;
+    }
+    body {
+      margin: 0;
+    }
+    #container {
+      width: calc(min(100vw, 100vh * 16 / 9));
+      height: calc(min(100vh, 100vw * 9 / 16));
+      position: fixed;
+      background: url("mariokart-background.png");
+      background-size: contain;
+    }
+    .box {
+      box-sizing: border-box;
+      position: absolute;
+      text-align: center;
+      transform: translateY(-50%);
+      margin: 0;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1%;
+    }
+    .name {
+
+    }
+    .score {
+      font-variant: tabular-nums;
+      font-size: 80%;
+      text-decoration: underline;
+    }
+    .score.final {
+      outline-offset: 0.3vh;
+      outline: 0.2vh solid black;
+      text-decoration: none;
+    }
+    .title {
+      font-size: 200%;
+      font-weight: 600;
+      white-space: pre;
+    }
+    .subtitle {
+      /*border: 0.2vh solid #ff00ff;*/
+      font-size: 145%;
+      white-space: pre;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 1%
+    }
+    #p1 { background: #ffeb75; }
+    #p2 { background: #75ebff; }
+    #p3 { background: #ff7575; }
+    #p4 { background: #91ff75; }
+    .player {
+      transition: 1s;
+    }
+    #loader {
+      position: absolute;
+      right: 0;
+      margin: 0.5%;
+      width: 1%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: calc(0.001 * min(100vw, 100vh * 16 / 9)) solid lightgrey;
+      border-right-color: green;
+      animation: l2 1s infinite linear;
+    }
+    @keyframes l2 {to{transform: rotate(1turn)}}
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="dynamic"></div>
+    <div id="loader"></div>
+    <div id="players"></div>
+  </div>
+  <script type="text/javascript">
+    const INTERVAL = 3;
+    const label = window.location.hash.slice(1);
+    if (!/^[A|B]-[M|L]\d+$/.test(label)) {
+        window.alert(`Invalid hash "${label}"`);
+        window.location.hash = 'A-M5';
+        window.location.reload();
+    }
+    const group = label[0], match = label.slice(2);
+    const C = document.getElementById("dynamic");
+    const $x = x => x/1920, $y = y => y/1080;
+    const Player = {
+      x: $x(1528),
+      w: $x(372),
+      y: $y(420),
+      h: $y(80),
+    }
+    const Title = {
+      x: $x(31),
+      y: $y(866+187/2),
+      w: $x(1376),
+    }
+    const Subtitle = {
+      x: $x(1528),
+      w: $x(372),
+      y: $y(340),
+      h: $y(80),
+    }
+
+    function render({ scores=[], title="", subtitle="" }) {
+      scores = scores.map((e, i) => ({ ...e, rank: e.rank || i+1 }));
+      const sorted = scores.map((e, i) => [e, i]).sort(([a, ia], [b, ib]) => a.rank == b.rank ? ia - ib : a.rank - b.rank).map(e => e[0]);
+      scores = scores.map(e => ({ ...e, rank: sorted.indexOf(e)+1 }));
+
+      C.innerHTML = `
+        <div class="box subtitle" style="left: ${Subtitle.x*100}%; top: ${Subtitle.y*100}%; width: ${Subtitle.w*100}%; height: ${Subtitle.h*95}%">${subtitle}</div>
+        <div class="box title" style="left: ${Title.x*100}%; top: ${Title.y*100}%; width: ${Title.w*100}%">${title}</div>
+      `;
+      scores.forEach(({ id, score, rank }, i) => {
+          let e = document.getElementById(`p${i+1}`);
+          if (!e) {
+            document.getElementById("players").innerHTML += `
+              <div class="box row player" id="p${i+1}"></div>
+            `;
+          }
+          e = document.getElementById(`p${i+1}`);
+          e.style.left = `${Player.x*100}%`;
+          e.style.top = `${(Player.y+(rank-1)*Player.h)*100}%`;
+          e.style.width = `${Player.w*100}%`;
+          e.style.height = `${Player.h*95}%`;
+          // e.style.zIndex = 100 - rank;
+          e.innerHTML = `
+            <div class="name">${id}</div>
+            <div class="score ${score >= 200 ? "final" : ""}">${score ?? 0}</div>
+          `;
+      })
+    }
+
+    async function update() {
+      const res = await fetch(`http://localhost:4000/s/${group}/${match}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      console.log(data);
+      render({
+          title: `資馬開門  ${group === "A" ? "競賽" : "休閒"}組  16強賽`,
+          subtitle: `<span>Race</span><span>${data.maps}</span>`,
+          ...data,
+      });
+    }
+    update();
+    setInterval(() => {
+      update();
+    }, INTERVAL * 1000);
+    document.getElementById("loader").style.animationDuration = `${INTERVAL}s`;
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style type="text/css">
+    body {
+        margin: 0;
+    }
+    .container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        outline: 3px solid black;
+        outline-offset: -25px;
+    }
+    *::-webkit-scrollbar {
+        display: none;
+    }
+</style>
+<body></body>
+<script type="text/javascript">
+const data = [
+    ["資馬開門 競賽組 M15", "https://w2m.wang.works/46004c97-8fa7-4c7f-b5b2-3a74f62437d4"],
+    ["資馬開門 競賽組 L3", "https://w2m.wang.works/9e61b8d3-a617-45a5-8305-761d505d6c1e"],
+    ["資馬開門 競賽組 L4", "https://w2m.wang.works/04690e9a-7910-4bbe-8fdc-69e02158a071"],
+    ["資馬開門 休閒組 M10", "https://w2m.wang.works/a1e0b075-8396-4a95-8133-634522fd1c64"],
+    ["資馬開門 休閒組 L3", "https://w2m.wang.works/22dd60e6-9254-41b9-9885-17cd5afb390f"],
+    ["資馬開門 休閒組 L4", "https://w2m.wang.works/5e613e7a-4ea0-41fd-a1a8-a1e2c26bf3d1"],
+];
+document.body.innerHTML = data.map(([title, url], idx) => `
+    <div class="container">
+        <h3 class="title">${title}</h3>
+        <img class="qrcode" src="imgs/image_${idx}.png">
+    </div>
+`).join('');
+</script>
